@@ -38,6 +38,26 @@ function App() {
   const [ascent2, setAscent2] = useState("Ascent");
 
 
+  const [telenetsampleScored, setTeleNetSampleScored] = useState(0);
+  const [telespecimenScored, setTeleSpecimenScored] = useState(0);
+  const [telelowSampleScored, setTeleLowSampleScored] = useState(0);
+  const [telehighSampleScored, setTeleHighSampleScored] = useState(0);
+  const [telelowChamber, setTeleLowChamber] = useState(0);
+  const [telehighChamber, setTeleHighChamber] = useState(0);
+
+
+  
+
+
+
+  const [teleno1, setTeleNo1] = useState("No");
+  const [teleno2, setTeleNo2] = useState("No");
+  const [teleobsz1, setTeleObsz1] = useState("Observation Zone");
+  const [teleobsz2, setTeleObsz2] = useState("Observation Zone");
+  const [teleascent1, setTeleAscent1] = useState("Ascent");
+  const [teleascent2, setTeleAscent2] = useState("Ascent");
+
+
 
 
   function ResetAll(){
@@ -47,6 +67,11 @@ function App() {
     setLowChamber(0);
     setHighChamber(0);
     setTotalScore(0);
+    setTeleNetSampleScored(0);
+    setTeleLowSampleScored(0);
+    setTeleHighSampleScored(0);
+    setTeleLowChamber(0);
+    setTeleHighChamber(0);
     setNo1("No");
     setNo2("No");
     setObsz1("Observation Zone");
@@ -96,11 +121,11 @@ function App() {
     console.log(netsampleScored);
     console.log(r1loc);
     let score = 0;
-    score = netsampleScored*2
-    score += lowSampleScored*4
-    score += highSampleScored*8
-    score += lowChamber*6
-    score += highChamber*10
+    score += (telenetsampleScored+netsampleScored)*2
+    score += (lowSampleScored + telelowSampleScored)*4
+    score += (highSampleScored + telehighSampleScored)*8
+    score += (telelowChamber+lowChamber)*6
+    score += (highChamber+ telehighChamber)*10
     if(r1loc === "Observation Zone" || r1loc === "Ascent"){
       score += 3;
     }
@@ -192,6 +217,89 @@ function App() {
       PositionChange2();
       console.log(r2loc);
     };
+
+
+  
+
+
+
+  //Teleop
+
+  function AddTeleNetSample(){
+    setTeleNetSampleScored(telenetsampleScored + 1);
+    
+ 
+    }
+  function RemoveTeleNetSample(){
+    if(telenetsampleScored > 0){
+      setTeleNetSampleScored(telenetsampleScored - 1);
+    }
+   
+    }
+  function AddTeleLowSample(){
+    setTeleLowSampleScored(telelowSampleScored + 1);
+  
+    }
+  function RemoveTeleLowSample(){
+    if(telelowSampleScored > 0){
+      setTeleLowSampleScored(telelowSampleScored - 1);
+    }
+    
+    }
+  function AddTeleHighSample(){
+    setTeleHighSampleScored(telehighSampleScored + 1);
+
+    }
+  function RemoveTeleHighSample(){
+    if(telehighSampleScored > 0){
+      setTeleHighSampleScored(telehighSampleScored - 1);
+    }
+  
+    }
+    
+
+  function RemoveTeleLowChamber(){
+    if(telelowChamber > 0){
+      setTeleLowChamber(telelowChamber - 1);
+    }
+    
+    }
+  function AddTeleLowChamber(){
+    setTeleLowChamber(telelowChamber + 1);
+
+    }
+  
+    
+    
+  function AddTeleHighChamber(){
+    setTeleHighChamber(telehighChamber + 1);
+
+    }
+  function RemoveTeleHighChamber(){
+    if(telehighChamber > 0){
+      setTeleHighChamber(telehighChamber - 1);
+    }
+  
+    }
+
+
+  
+
+  
+    // const [r1loc, setr1loc] = useState(null);
+    // const [r2loc, setr2loc] = useState(null);
+  
+    // const handler1loc = (value) => {
+    //   setr1loc(value);
+    //   PositionChange1();
+    //   console.log(r1loc);
+    // };
+    
+    // const handler2loc = (value) => {
+    //   setr2loc(value);
+    //   PositionChange2();
+    //   console.log(r2loc);
+    // };
   
 
 
@@ -327,6 +435,7 @@ function App() {
             <Button variant = "outline-primary" onClick={() => handler1loc("Observation Zone")}>{obsz1}</Button>
             <Button variant = "outline-success" onClick={() => handler1loc("Ascent")}>{ascent1}</Button>
             
+            
           </ButtonGroup>
           </Col>
 
@@ -342,10 +451,160 @@ function App() {
         </Row>
 
 
-       <Button onClick={ResetAll}>
+       
+      </Container>
+
+
+      <Container>
+        <Row>
+          <Col>
+          <h1 >
+            Teleop
+          </h1>
+          </Col>
+          
+        </Row>
+        <Row>
+          
+          <Col>
+            Samples in NET
+          </Col>
+          <Col>
+            <Button onClick={RemoveTeleNetSample}>
+              Minus
+            </Button>
+            </Col>
+            <Col>
+            <h1>
+             {telenetsampleScored}
+            </h1>
+          </Col>
+          <Col>
+            <Button onClick={AddTeleNetSample}>
+              Plus
+            </Button>
+          </Col>
+         
+          <Col>
+            Samples in Low Basket
+          </Col>
+          <Col>
+            <Button onClick={RemoveTeleLowSample}>
+              Minus
+            </Button>
+            </Col>
+            <Col>
+            <h1>
+              {telelowSampleScored}
+              </h1> 
+          </Col>
+          <Col onClick={AddTeleLowSample}>
+            <Button>
+              Plus
+            </Button>
+          </Col>
+         
+        </Row>
+        <br/>
+        <br/>
+
+        <Row>
+        <Col>
+            Samples in High Basket
+          </Col>
+          <Col>
+            <Button onClick= {RemoveTeleHighSample}>
+              Minus
+            </Button>
+            </Col>
+            <Col>
+            <h1>
+            {telehighSampleScored}
+            </h1>
+          </Col>
+          <Col>
+            <Button onClick={AddTeleHighSample}>
+              Plus
+            </Button>
+          </Col>
+        </Row>
+
+
+
+
+      
+        <Row>
+          
+          <Col>
+            Samples on Low Chamber
+          </Col>
+          <Col>
+            <Button onClick={RemoveTeleLowChamber}>
+              Minus
+            </Button>
+            </Col>
+            <Col>
+            <h1>
+              {telelowChamber}
+            </h1>
+          </Col>
+          <Col>
+            <Button onClick={AddTeleLowChamber}>
+              Plus
+            </Button>
+          </Col>
+         
+          <Col>
+            Samples in High Chamber
+          </Col>
+          <Col>
+            <Button onClick={RemoveTeleHighChamber}>
+              Minus
+            </Button>
+            </Col>
+            <Col>
+            <h1>
+              {telehighChamber}
+            </h1>
+          </Col>
+          <Col onClick={AddTeleHighChamber}>
+            <Button>
+              Plus
+            </Button>
+          </Col>
+         
+        </Row>
+        <Row>
+          <Col>
+          <ButtonGroup aria-label="Basic example">
+            <Button variant = "outline-danger" onClick={() => handler1loc("No")}>{no1}</Button>
+            <Button variant = "outline-primary" onClick={() => handler1loc("Observation Zone")}>{obsz1}</Button>
+            <Button variant = "outline-success" onClick={() => handler1loc("Ascent")}>{ascent1}</Button>
+            
+            
+          </ButtonGroup>
+          </Col>
+
+          <Col>
+          <ButtonGroup aria-label="Basic example">
+            <Button variant = "outline-danger" onClick={() => handler2loc("No")}>{no2}</Button>
+            <Button variant = "outline-primary" onClick={() => handler2loc("Observation Zone")}>{obsz2}</Button>
+            <Button variant = "outline-success" onClick={() => handler2loc("Ascent")}>{ascent2}</Button>
+          </ButtonGroup>
+          </Col>
+
+
+        </Row>
+
+        <Button onClick={ResetAll}>
           Reset
        </Button>
+
+
+      
       </Container>
+
+      
       
     </div>
   );
