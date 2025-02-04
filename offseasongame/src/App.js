@@ -199,6 +199,41 @@ function App() {
   
     }
 
+    function PositionTeleChange1(){
+      if(teler1loc === "No"){
+        setTeleNo1("No - Clicked");
+        setTeleObsz1("Observation Zone");
+        setTeleAscent1("Ascent");
+      }
+      if(teler1loc === "Observation Zone"){
+        setTeleNo1("No");
+        setTeleObsz1("Observation Zone - Checked");
+        setTeleAscent1("Ascent");
+      }
+      if(teler1loc === "Ascent"){
+        setTeleNo1("No");
+        setTeleAscent1("Ascent - Clicked");
+        setTeleObsz1("Observation Zone");
+      }
+    }
+    function PositionTeleChange2(){
+      if(teler2loc === "No"){
+        setTeleObsz2("Observation Zone");
+        setTeleNo2("No - Checked");
+        setTeleAscent2("Ascent");
+      }
+      if(teler2loc === "Observation Zone"){
+        setTeleNo2("No ");
+        setTeleObsz2("Observation Zone - Clicked");
+        setTeleAscent2("Ascent");
+      }
+      if(teler2loc === "Ascent"){
+        setTeleNo2("No");
+        setTeleAscent2("Ascent - Checked");
+        setTeleObsz2("Observation Zone");
+      }
+    }
+
 
   
 
@@ -217,6 +252,8 @@ function App() {
       PositionChange2();
       console.log(r2loc);
     };
+
+  
 
 
   
@@ -286,20 +323,19 @@ function App() {
   
 
   
-    // const [r1loc, setr1loc] = useState(null);
-    // const [r2loc, setr2loc] = useState(null);
+    const [teler1loc, setTeler1loc] = useState(null);
+    const [teler2loc, setTeler2loc] = useState(null);
   
-    // const handler1loc = (value) => {
-    //   setr1loc(value);
-    //   PositionChange1();
-    //   console.log(r1loc);
-    // };
+    const handlerTele1loc = (value) => {
+      setTeler1loc(value);
+      PositionTeleChange1();
+    };
     
-    // const handler2loc = (value) => {
-    //   setr2loc(value);
-    //   PositionChange2();
-    //   console.log(r2loc);
-    // };
+    const handlerTele2loc = (value) => {
+      setTeler2loc(value);
+      PositionTeleChange2();
+      console.log(r2loc);
+    };
   
 
 
@@ -577,9 +613,9 @@ function App() {
         <Row>
           <Col>
           <ButtonGroup aria-label="Basic example">
-            <Button variant = "outline-danger" onClick={() => handler1loc("No")}>{no1}</Button>
-            <Button variant = "outline-primary" onClick={() => handler1loc("Observation Zone")}>{obsz1}</Button>
-            <Button variant = "outline-success" onClick={() => handler1loc("Ascent")}>{ascent1}</Button>
+            <Button variant = "outline-danger" onClick={() => handlerTele1loc("No")}>{teleno1}</Button>
+            <Button variant = "outline-primary" onClick={() => handlerTele1loc("Observation Zone")}>{teleobsz1}</Button>
+            <Button variant = "outline-success" onClick={() => handlerTele1loc("Ascent")}>{teleascent1}</Button>
             
             
           </ButtonGroup>
@@ -587,9 +623,9 @@ function App() {
 
           <Col>
           <ButtonGroup aria-label="Basic example">
-            <Button variant = "outline-danger" onClick={() => handler2loc("No")}>{no2}</Button>
-            <Button variant = "outline-primary" onClick={() => handler2loc("Observation Zone")}>{obsz2}</Button>
-            <Button variant = "outline-success" onClick={() => handler2loc("Ascent")}>{ascent2}</Button>
+            <Button variant = "outline-danger" onClick={() => handlerTele2loc("No")}>{teleno2}</Button>
+            <Button variant = "outline-primary" onClick={() => handlerTele2loc("Observation Zone")}>{teleobsz2}</Button>
+            <Button variant = "outline-success" onClick={() => handlerTele2loc("Ascent")}>{teleascent2}</Button>
           </ButtonGroup>
           </Col>
 
