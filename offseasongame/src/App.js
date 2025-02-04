@@ -114,7 +114,7 @@ function App() {
   }
 
   useEffect(() => {
-    let timerID = setInterval( () => CalculateScore(), 2000);
+    let timerID = setInterval( () => CalculateScore(), 1000);
     return () => clearInterval(timerID);
 })
   function AddNetSample(){
