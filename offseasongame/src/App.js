@@ -32,7 +32,7 @@ function App() {
 
   const [no1, setNo1] = useState("No");
   const [no2, setNo2] = useState("No");
-  const [obsz1, setObsz1] = useState("Observation Zone");
+  const [obsz1, setObsz1] = useState("OZ");
   const [obsz2, setObsz2] = useState("Observation Zone");
   const [ascent1, setAscent1] = useState("Ascent");
   const [ascent2, setAscent2] = useState("Ascent");
@@ -85,12 +85,12 @@ function App() {
   function PositionChange1(){
     if(r1loc === "No"){
       setNo1("No - Clicked");
-      setObsz1("Observation Zone");
+      setObsz1("OZ");
       setAscent1("Ascent");
     }
     if(r1loc === "Observation Zone"){
       setNo1("No");
-      setObsz1("Observation Zone - Checked");
+      setObsz1("OZ");
       setAscent1("Ascent");
     }
     if(r1loc === "Ascent"){
@@ -469,7 +469,10 @@ function App() {
           <ButtonGroup aria-label="Basic example">
             <Button variant = "outline-danger" onClick={() => handler1loc("No")}>{no1}</Button>
             <Button variant = "outline-primary" onClick={() => handler1loc("Observation Zone")}>{obsz1}</Button>
-            <Button variant = "outline-success" onClick={() => handler1loc("Ascent")}>{ascent1}</Button>
+            <Button variant = "outline-primary" onClick={() => handler1loc("Ascent")}>{ascent1}</Button>
+            <Button variant = "outline-primary" onClick={() => handler1loc("No")}>{no1}</Button>
+            <Button variant = "outline-primary" onClick={() => handler1loc("Observation Zone")}>{obsz1}</Button>
+            <Button variant = "outline-primary" onClick={() => handler1loc("Ascent")}>{ascent1}</Button>
             
             
           </ButtonGroup>
