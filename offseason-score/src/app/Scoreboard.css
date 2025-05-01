@@ -1,0 +1,78 @@
+/* Scoreboard.css */
+
+.scoreboard-container {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #111;
+    color: #fff;
+  }
+  
+  .scoreboard-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .scoreboard-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 20px;
+  }
+  
+  .score-box {
+    border: 2px solid #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
+    background-color: #222;
+  }
+  
+  .score-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .score-title.red {
+    color: #ff4444;
+  }
+  
+  .score-title.blue {
+    color: #44aaff;
+  }
+  
+  .score-sections {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .score-section {
+    flex: 1;
+    margin: 0 5px;
+  }
+  
+  .score-heading {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-decoration: underline;
+  }
+  
+  .score-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 4px 0;
+  }
+  
+  .score-teams,
+  .score-total {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  .score-time {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffcc00;
+  }
+  
