@@ -1,12 +1,19 @@
+'use client';
+
+
+import Image from "next/image";
+import styles from "./page.module.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 import logo from './logo.svg';
-import './App.css';
+// import './Calc.css';
 import Button from 'react-bootstrap/Button';
-import { use, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import { useEffect } from 'react';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
 
@@ -16,7 +23,7 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
 
 
-function App() {
+function Calc() {
   const [netsampleScored, setNetSampleScored] = useState(0);
   const [specimenScored, setSpecimenScored] = useState(0);
   const [lowSampleScored, setLowSampleScored] = useState(0);
@@ -241,13 +248,13 @@ function App() {
     const [r1loc, setr1loc] = useState(null);
     const [r2loc, setr2loc] = useState(null);
   
-    const handler1loc = (value) => {
+    const handler1loc = (value: any) => {
       setr1loc(value);
       PositionChange1();
       console.log(r1loc);
     };
     
-    const handler2loc = (value) => {
+    const handler2loc = (value: any) => {
       setr2loc(value);
       PositionChange2();
       console.log(r2loc);
@@ -326,12 +333,12 @@ function App() {
     const [teler1loc, setTeler1loc] = useState(null);
     const [teler2loc, setTeler2loc] = useState(null);
   
-    const handlerTele1loc = (value) => {
+    const handlerTele1loc = (value: any) => {
       setTeler1loc(value);
       PositionTeleChange1();
     };
     
-    const handlerTele2loc = (value) => {
+    const handlerTele2loc = (value: any) => {
       setTeler2loc(value);
       PositionTeleChange2();
       console.log(r2loc);
@@ -649,4 +656,5 @@ function App() {
   );
 }
 
-export default App;
+export default Calc;
+
