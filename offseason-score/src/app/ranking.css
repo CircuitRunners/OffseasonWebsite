@@ -1,0 +1,103 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Table Styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: blue;
+    color: white;
+    font-size: 16px;
+  }
+  
+  td {
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Zebra Striping */
+  tr:nth-child(even) td {
+    background-color: #f2f2f2;
+  }
+  
+  /* Buttons */
+  button {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  button:hover {
+    background-color: blue;
+  }
+  
+  button:active {
+    background-color: blue;
+  }
+  
+  /* Rank Styling */
+  .rank-column {
+    width: 10%;
+  }
+  
+  /* Score Column */
+  .score-column {
+    text-align: center;
+  }
+  
+  .name-column {
+    text-align: left;
+  }
+  
+  /* Rank Header Styling */
+  th {
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  /* Mobile Styling (for responsive design) */
+  @media (max-width: 768px) {
+    table {
+      font-size: 12px;
+    }
+  
+    button {
+      padding: 8px 16px;
+      font-size: 12px;
+    }
+  
+    .container {
+      padding: 15px;
+    }
+  }
+  
