@@ -7,18 +7,18 @@ import './ranking.css';
 
 
 function Ranking() {
-    const [W1002, setW1002] = useState(1);
-    const [W11347, setW11347] = useState(1);
-    const [W23638, setW23638] = useState(1);
-    const [W26481, setW26481] = useState(1);
-    const [W19571, setW19571] = useState(1);
-    const [W26537, setW26537] = useState(1);
-    const [L1002, setL1002] = useState(1);
-    const [L11347, setL11347] = useState(1);
-    const [L23638, setL23638] = useState(1);
-    const [L26481, setL26481] = useState(1);
-    const [L19571, setL19571] = useState(1);
-    const [L26537, setL26537] = useState(1);
+    const [W1002, setW1002] = useState(0);
+    const [W11347, setW11347] = useState(0);
+    const [W23638, setW23638] = useState(0);
+    const [W26481, setW26481] = useState(0);
+    const [W19571, setW19571] = useState(0);
+    const [W26537, setW26537] = useState(0);
+    const [L1002, setL1002] = useState(0);
+    const [L11347, setL11347] = useState(0);
+    const [L23638, setL23638] = useState(0);
+    const [L26481, setL26481] = useState(0);
+    const [L19571, setL19571] = useState(0);
+    const [L26537, setL26537] = useState(0);
 
     useEffect(() => {
         setScores([

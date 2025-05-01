@@ -6,7 +6,7 @@ import Scoreboard from './Scoreboard'
 function page() {
   return (
     <div>
-      <Scoreboard/>
+      <Calc />
     </div>
   )
 }

@@ -5,6 +5,9 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { createClient } from '@supabase/supabase-js'
+
+
 
 import logo from './logo.svg';
 // import './Calc.css';
@@ -17,6 +20,12 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
 
+const supabaseUrl = 'https://okpmwvncllgioexsqjut.supabase.co'
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9rcG13dm5jbGxnaW9leHNxanV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYxMjgzMjUsImV4cCI6MjA2MTcwNDMyNX0.ZHe0fnKscTJDyX5OJHbFU_9_e6XulqqAflrhkGHteM0'
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+
 
  
 
@@ -26,8 +35,11 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 function Calc() {
   const [netsampleScored, setNetSampleScored] = useState(0);
   const [specimenScored, setSpecimenScored] = useState(0);
+
   const [lowSampleScored, setLowSampleScored] = useState(0);
   const [highSampleScored, setHighSampleScored] = useState(0);
+  const [lowSpecimenScored, setLowSpecimenScored] = useState(0);
+  const [highSpecimenScored, setHighSpecimenScored] = useState(0);
   const [lowChamber, setLowChamber] = useState(0);
   const [highChamber, setHighChamber] = useState(0);
 
@@ -51,6 +63,9 @@ function Calc() {
   const [telehighSampleScored, setTeleHighSampleScored] = useState(0);
   const [telelowChamber, setTeleLowChamber] = useState(0);
   const [telehighChamber, setTeleHighChamber] = useState(0);
+    const [lowTeleSpecimenScored, setLowTeleSpecimenScored] = useState(0);
+    const [highTeleSpecimenScored, setHighTeleSpecimenScored] = useState(0);
+
 
 
   
@@ -63,6 +78,9 @@ function Calc() {
   const [teleobsz2, setTeleObsz2] = useState("Observation Zone");
   const [teleascent1, setTeleAscent1] = useState("Ascent");
   const [teleascent2, setTeleAscent2] = useState("Ascent");
+    const [teleno3, setTeleNo3] = useState("No");
+    const [teleobsz3, setTeleObsz3] = useState("Observation Zone");
+    const [teleascent3, setTeleAscent3] = useState("Opponents Basket");
 
 
 
@@ -73,10 +91,17 @@ function Calc() {
     setHighSampleScored(0);
     setLowChamber(0);
     setHighChamber(0);
+    setSpecimenScored(0);
+    setLowSpecimenScored(0);
+    setHighSpecimenScored(0);
     setTotalScore(0);
+
     setTeleNetSampleScored(0);
+
     setTeleLowSampleScored(0);
     setTeleHighSampleScored(0);
+    setLowTeleSpecimenScored(0);
+    setHighTeleSpecimenScored(0);
     setTeleLowChamber(0);
     setTeleHighChamber(0);
     setNo1("No");
@@ -132,6 +157,8 @@ function Calc() {
     score += (lowSampleScored + telelowSampleScored)*4
     score += (highSampleScored + telehighSampleScored)*8
     score += (telelowChamber+lowChamber)*6
+    score += (highSpecimenScored + highTeleSpecimenScored)*12
+    score += (lowSpecimenScored + lowTeleSpecimenScored)*8
     score += (highChamber+ telehighChamber)*10
     if(r1loc === "Observation Zone" || r1loc === "Ascent"){
       score += 3;
@@ -139,6 +166,10 @@ function Calc() {
     if(r2loc === "Observation Zone" || r2loc === "Ascent"){
       score += 3;
     }
+    if(r3loc === "Observation Zone" || r3loc === "Ascent"){
+        score += 3;
+        }
+    
     
     
 
@@ -174,6 +205,28 @@ function Calc() {
     setHighSampleScored(highSampleScored + 1);
 
     }
+    function RemoveLowSpecimen(){
+    if(lowSpecimenScored > 0){
+        setLowSpecimenScored(lowSpecimenScored - 1);
+    }
+    
+    }
+    function AddHighSpecimen(){
+    setHighSpecimenScored(highSpecimenScored + 1);
+
+    }
+    function AddLowSpecimen(){
+        if(lowSpecimenScored > -1){
+            setLowSpecimenScored(lowSpecimenScored + 1);
+        }
+        
+        }
+        function RemoveHighSpecimen(){
+        if(highSpecimenScored > 0){
+            setHighSpecimenScored(highSpecimenScored -1);
+        }
+    
+        }
   function RemoveHighSample(){
     if(highSampleScored > 0){
       setHighSampleScored(highSampleScored - 1);
@@ -242,11 +295,36 @@ function Calc() {
     }
 
 
+    function RemoveTeleLowSpecimen(){
+        if(lowTeleSpecimenScored > 0){
+            setLowTeleSpecimenScored(lowTeleSpecimenScored - 1);
+        }
+        
+        }
+        function AddTeleHighSpecimen(){
+        setHighTeleSpecimenScored(highTeleSpecimenScored + 1);
+    
+        }
+        function AddTeleLowSpecimen(){
+            if(lowTeleSpecimenScored > -1){
+                setLowTeleSpecimenScored(lowTeleSpecimenScored + 1);
+            }
+            
+            }
+            function RemoveTeleHighSpecimen(){
+                if(highTeleSpecimenScored > 0){
+                setHighTeleSpecimenScored(highTeleSpecimenScored -1);
+                }
+        
+            }
+
+
   
 
   
     const [r1loc, setr1loc] = useState(null);
     const [r2loc, setr2loc] = useState(null);
+    const [r3loc, setr3loc] = useState(null);
   
     const handler1loc = (value: any) => {
       setr1loc(value);
@@ -259,6 +337,11 @@ function Calc() {
       PositionChange2();
       console.log(r2loc);
     };
+    const handler3loc = (value: any) => {
+      setr3loc(value);
+      console.log(r3loc);
+    };
+    
 
   
 
@@ -381,7 +464,8 @@ function Calc() {
               Plus
             </Button>
           </Col>
-         
+         </Row>
+         <Row>
           <Col>
             Samples in Low Basket
           </Col>
@@ -401,11 +485,7 @@ function Calc() {
             </Button>
           </Col>
          
-        </Row>
-        <br/>
-        <br/>
 
-        <Row>
         <Col>
             Samples in High Basket
           </Col>
@@ -421,6 +501,47 @@ function Calc() {
           </Col>
           <Col>
             <Button onClick={AddHighSample}>
+              Plus
+            </Button>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            Specimens in Low Basket
+          </Col>
+          <Col>
+            <Button onClick={RemoveLowSpecimen}>
+              Minus
+            </Button>
+            </Col>
+            <Col>
+            <h1>
+              {lowSpecimenScored}
+              </h1> 
+          </Col>
+          <Col onClick={AddLowSpecimen}>
+            <Button>
+              Plus
+            </Button>
+          </Col>
+         
+
+        <Col>
+            Specimens in High Basket
+          </Col>
+          <Col>
+            <Button onClick= {RemoveHighSpecimen}>
+              Minus
+            </Button>
+            </Col>
+            <Col>
+            <h1>
+            {highSpecimenScored}
+            </h1>
+          </Col>
+          <Col>
+            <Button onClick={AddHighSpecimen}>
               Plus
             </Button>
           </Col>
@@ -620,6 +741,48 @@ function Calc() {
           </Col>
          
         </Row>
+
+        <Row>
+          <Col>
+            Specimens in Low Basket
+          </Col>
+          <Col>
+            <Button onClick={RemoveTeleLowSpecimen}>
+              Minus
+            </Button>
+            </Col>
+            <Col>
+            <h1>
+              {lowTeleSpecimenScored}
+              </h1> 
+          </Col>
+          <Col onClick={AddTeleLowSpecimen}>
+            <Button>
+              Plus
+            </Button>
+          </Col>
+         
+
+        <Col>
+            Specimens in High Basket
+          </Col>
+          <Col>
+            <Button onClick= {RemoveTeleHighSpecimen}>
+              Minus
+            </Button>
+            </Col>
+            <Col>
+            <h1>
+            {highTeleSpecimenScored}
+            </h1>
+          </Col>
+          <Col>
+            <Button onClick={AddTeleHighSpecimen}>
+              Plus
+            </Button>
+          </Col>
+        </Row>
+
         <Row>
           <Col>
           <ButtonGroup aria-label="Basic example">
@@ -641,6 +804,16 @@ function Calc() {
 
 
         </Row>
+        <ButtonGroup aria-label="barnacle">
+            <Button variant = "outline-danger" onClick={() => handlerTele1loc("No")}>No</Button>
+            <Button variant = "outline-primary" onClick={() => handlerTele1loc("Observation Zone")}>Observation Zone</Button>
+            <Button variant = "outline-success" onClick={() => handlerTele1loc("Opponents Basket")}>Opponents Basket</Button>
+            
+            
+          </ButtonGroup>
+       
+
+        
 
         <Button onClick={ResetAll}>
           Reset
