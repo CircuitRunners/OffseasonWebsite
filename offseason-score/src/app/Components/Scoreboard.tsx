@@ -1,9 +1,18 @@
 import React from "react";
 import "./Scoreboard.css";
-import db from './db'
+import db from '../db'
+import Link from 'next/link'
+
 const ScoreBox = ({ title, color, autoData, teleopData, teamNumbers, totalScore }) => {
   return (
+    <div>
+      <nav>
+        <Link href="/">Back to Calc</Link><br />
+        <Link href="/rank">Go to Ranking</Link>
+      </nav>
+    
     <div className={`score-box ${color}`}>
+      
       <h2 className={`score-title ${color}`}>{title.toUpperCase()}</h2>
 
       <div className="score-sections">
@@ -42,6 +51,7 @@ const ScoreBox = ({ title, color, autoData, teleopData, teamNumbers, totalScore 
 
       <p className="score-teams">Teams: {teamNumbers.join(" & ")}</p>
       <p className="score-total">Score: {totalScore}</p>
+    </div>
     </div>
   );
 };

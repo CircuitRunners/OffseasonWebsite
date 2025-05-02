@@ -1,13 +1,10 @@
 import React from 'react'
-import Calc from './calc'
-import Ranking from './ranking'
-import Scoreboard from './Scoreboard'
+import Calc from './Components/calc'
+import Ranking from './Components/ranking'
+import Scoreboard from './Components/Scoreboard'
 import {getMatchByNumber, getAllMatches} from './db'
 function Page() {
-    return (
-    <div>
-      <Calc />
-    </div>
-  )
+  return <Calc />
+  
 }
 export default Page

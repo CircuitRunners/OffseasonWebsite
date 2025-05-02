@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link'
 
 import Image from "next/image";
 import styles from "./page.module.css";
@@ -19,7 +20,7 @@ import Col from 'react-bootstrap/Col';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import {getAllMatches, getMatchByNumber} from "@/app/db";
-import Match from './types';
+import Match from '../types';
 import {wait} from "next/dist/lib/wait";
 
 
@@ -436,6 +437,11 @@ function Calc() {
 
   return (
     <div>
+
+      <nav>
+        <Link href="/rank">Go to Ranking</Link><br />
+        <Link href="/score">Go to Scoreboard</Link>
+      </nav>
       <select defaultValue={0} onChange={setCurrentMatchSelector}>
         <option value={0} disabled> Default </option>
         <option value={1}> Match 1 </option>

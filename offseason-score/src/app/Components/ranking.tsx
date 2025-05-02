@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import './ranking.css';
+import Link from 'next/link'
+
 
 
 
@@ -44,6 +46,13 @@ function Ranking() {
 
   return (
     <div style={{ margin: '20px' }}>
+
+   
+      <h1>Ranking Page</h1>
+      <nav>
+        <Link href="/">Back to Calc</Link><br />
+        <Link href="/score">Go to Scoreboard</Link>
+      </nav>
       <table style={{ width: '300px', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
