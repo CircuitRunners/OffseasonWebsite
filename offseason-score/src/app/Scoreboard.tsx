@@ -1,6 +1,6 @@
 import React from "react";
 import "./Scoreboard.css";
-
+import db from './db'
 const ScoreBox = ({ title, color, autoData, teleopData, teamNumbers, totalScore }) => {
   return (
     <div className={`score-box ${color}`}>

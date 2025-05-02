@@ -4,7 +4,8 @@ export type MatchScore = {
 }
 
 export type Match = {
-    matchNumber: number;
+    id: number
+    number: number;
     blue: {
         teamNumbers: string[];
         score: MatchScore

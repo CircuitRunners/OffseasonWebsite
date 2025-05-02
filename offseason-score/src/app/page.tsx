@@ -2,13 +2,12 @@ import React from 'react'
 import Calc from './calc'
 import Ranking from './ranking'
 import Scoreboard from './Scoreboard'
-
-function page() {
-  return (
+import {getMatchByNumber, getAllMatches} from './db'
+function Page() {
+    return (
     <div>
       <Calc />
     </div>
   )
 }
-
-export default page
+export default Page

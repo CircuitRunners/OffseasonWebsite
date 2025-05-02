@@ -12,18 +12,16 @@ import { createClient } from '@supabase/supabase-js'
 import logo from './logo.svg';
 // import './Calc.css';
 import Button from 'react-bootstrap/Button';
-import { use, useEffect, useState } from 'react';
+import React, {ChangeEvent, use, useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
+import {getAllMatches, getMatchByNumber} from "@/app/db";
+import Match from './types';
+import {wait} from "next/dist/lib/wait";
 
-
-const supabaseUrl = 'https://okpmwvncllgioexsqjut.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9rcG13dm5jbGxnaW9leHNxanV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYxMjgzMjUsImV4cCI6MjA2MTcwNDMyNX0.ZHe0fnKscTJDyX5OJHbFU_9_e6XulqqAflrhkGHteM0'
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 
 
@@ -33,6 +31,11 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 
 function Calc() {
+  const [matches, setMatches] = useState([]);
+  getAllMatches().then((matches) => {setMatches(matches)})
+
+  const [currentMatch, setCurrentMatch] = useState(matches[0]);
+
   const [netsampleScored, setNetSampleScored] = useState(0);
   const [specimenScored, setSpecimenScored] = useState(0);
 
@@ -301,26 +304,28 @@ function Calc() {
         }
         
         }
-        function AddTeleHighSpecimen(){
-        setHighTeleSpecimenScored(highTeleSpecimenScored + 1);
-    
+    function AddTeleHighSpecimen(){
+    setHighTeleSpecimenScored(highTeleSpecimenScored + 1);
+
+    }
+    function AddTeleLowSpecimen(){
+        if(lowTeleSpecimenScored > -1){
+            setLowTeleSpecimenScored(lowTeleSpecimenScored + 1);
         }
-        function AddTeleLowSpecimen(){
-            if(lowTeleSpecimenScored > -1){
-                setLowTeleSpecimenScored(lowTeleSpecimenScored + 1);
-            }
-            
-            }
-            function RemoveTeleHighSpecimen(){
-                if(highTeleSpecimenScored > 0){
-                setHighTeleSpecimenScored(highTeleSpecimenScored -1);
-                }
-        
-            }
 
+        }
+    function RemoveTeleHighSpecimen() {
+      if (highTeleSpecimenScored > 0) {
+        setHighTeleSpecimenScored(highTeleSpecimenScored - 1);
+      }
 
+    }
   
-
+    function setCurrentMatchSelector(event: React.ChangeEvent<HTMLSelectElement>) {
+      const value = event.target.value as number;
+      console.log(value)
+      setCurrentMatch(matches[value-1])
+    }
   
     const [r1loc, setr1loc] = useState(null);
     const [r2loc, setr2loc] = useState(null);
@@ -431,6 +436,12 @@ function Calc() {
 
   return (
     <div>
+      <select defaultValue={0} onChange={setCurrentMatchSelector}>
+        <option value={0} disabled> Default </option>
+        <option value={1}> Match 1 </option>
+        <option value={2}> Match 2 </option>
+        <option value={3}> Match 3 </option>
+      </select>
       <Container>
         <Row>
           <Col>
