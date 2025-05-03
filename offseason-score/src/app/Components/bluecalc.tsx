@@ -490,6 +490,11 @@ function BlueCalc() {
         <option value={13}> Match 13 </option>
         <option value={14}> Match 14 </option>
         <option value={15}> Match 15 </option>
+        <option value={16}> Match 11 </option>
+                <option value={17}> Match 12 </option>
+                <option value={18}> Match 13 </option>
+                <option value={19}> Match 14 </option>
+                <option value={20}> Match 15 </option>
       </select>
       <Container>
         <Row>
