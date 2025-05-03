@@ -111,15 +111,15 @@ export default function Scoreboard() {
 
   useEffect(() => {
     const timerID =setInterval(() => {
-  getAllMatches().then((matches) => {setMatches(matches);})
-      setCurrentMatch(matches[(currentMatch.id)-1] ? matches[(currentMatch.id)-1] : defaultMatch )
+    getAllMatches().then((matches) => {setMatches(matches);})
+      setCurrentMatch(matches.find((match) => currentMatch.id == match.id!) ? matches.find((match) => currentMatch.id == match.id!) : defaultMatch )
     }, 500);
     return () => clearInterval(timerID);
   })
 
   function setCurrentMatchSelector(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value as number;
-    setCurrentMatch(matches[value-1])
+    setCurrentMatch(matches.find((match) => value == match.id!))
     }
   return (
     <div className="scoreboard-container">
@@ -129,9 +129,23 @@ export default function Scoreboard() {
       </nav>
       <select defaultValue={0} onChange={setCurrentMatchSelector}>
         <option value={0} disabled> Default </option>
+
         <option value={1}> Match 1 </option>
         <option value={2}> Match 2 </option>
         <option value={3}> Match 3 </option>
+        <option value={4}> Match 4 </option>
+        <option value={5}> Match 5 </option>
+        <option value={6}> Match 6 </option>
+        <option value={7}> Match 7 </option>
+        <option value={8}> Match 8 </option>
+        <option value={9}> Match 9 </option>
+        <option value={10}> Match 10 </option>
+        <option value={11}> Match 11 </option>
+        <option value={12}> Match 12 </option>
+        <option value={13}> Match 13 </option>
+        <option value={14}> Match 14 </option>
+        <option value={15}> Match 15 </option>
+
       </select>
       <h1 className="scoreboard-title">CircuitRunners Robotics Offseason Event -- Match { currentMatch.id | 0 }</h1>
       <div className="scoreboard-grid">
