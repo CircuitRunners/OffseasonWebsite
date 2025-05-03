@@ -120,7 +120,7 @@ export default function Scoreboard() {
 
   function setCurrentMatchSelector(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value as unknown as number;
-    setCurrentMatch(matches.find((match: any) => currentMatch.id == (match.id | 0)) || defaultMatch)
+    setCurrentMatch(matches.find((match: any) => value == (match.id | 0)) || defaultMatch)
     }
   return (
     <div className="scoreboard-container">
