@@ -147,13 +147,13 @@ function BlueCalc() {
   async function CalculateScore(){
     // console.log(r1loc);
     let score = 0;
-    score += (teleNetSampleScored+netSampleScored)*2
-    score += (lowSampleScored + teleLowSampleScored)*4
-    score += (highSampleScored + teleHighSampleScored)*8
-    score += (teleLowChamber+lowChamber)*6
-    score += (highSpecimenScored + highTeleSpecimenScored)*12
-    score += (lowSpecimenScored + lowTeleSpecimenScored)*8
-    score += (highChamber+ teleHighChamber)*10
+    score += (teleNetSampleScored+netSampleScored*2)*2
+    score += (lowSampleScored + teleLowSampleScored*2)*4
+    score += (highSampleScored + teleHighSampleScored*2)*8
+    score += (teleLowChamber+lowChamber*2)*6
+    score += (highSpecimenScored + highTeleSpecimenScored*2)*12
+    score += (lowSpecimenScored + lowTeleSpecimenScored*2)*8
+    score += (highChamber+ teleHighChamber*2)*10
     score -= pens*5
     if(r1loc === "Observation Zone" || r1loc === "Ascent"){
       score += 3;
