@@ -146,13 +146,13 @@ function RedCalc() {
         // console.log(r1loc);
         let score = 0;
         score += (teleNetSampleScored+netSampleScored)*2
-        score += (lowSampleScored + teleLowSampleScored)*4
-        score += (highSampleScored + teleHighSampleScored)*8
-        score += (teleLowChamber+lowChamber)*6
+        score += (2*lowSampleScored + teleLowSampleScored)*4
+        score += (2*highSampleScored + teleHighSampleScored)*8
+        score += (2* teleLowChamber+lowChamber)*6
         score -= pens*5
-        score += (highSpecimenScored + highTeleSpecimenScored)*12
-        score += (lowSpecimenScored + lowTeleSpecimenScored)*8
-        score += (highChamber+ teleHighChamber)*10
+        score += (2*highSpecimenScored + highTeleSpecimenScored)*12
+        score += (2*lowSpecimenScored + lowTeleSpecimenScored)*8
+        score += (2*highChamber+ teleHighChamber)*10
         if(r1loc === "Observation Zone" || r1loc === "Ascent"){
             score += 3;
         }
