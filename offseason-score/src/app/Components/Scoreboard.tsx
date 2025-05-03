@@ -146,6 +146,11 @@ export default function Scoreboard() {
         <option value={13}> Match 13 </option>
         <option value={14}> Match 14 </option>
         <option value={15}> Match 15 </option>
+        <option value={16}> Match 16 </option>
+                <option value={17}> Match 17 </option>
+                <option value={18}> Match 18 </option>
+                <option value={19}> Match 19 </option>
+                <option value={20}> Match 20 </option>
 
       </select>
       <h1 className="scoreboard-title">CircuitRunners Robotics Offseason Event -- Match { currentMatch.id | 0 }</h1>
