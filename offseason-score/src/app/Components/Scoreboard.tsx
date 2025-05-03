@@ -1,15 +1,13 @@
-import React from "react";
+'use client';
+import React, {useEffect, useState} from "react";
 import "./Scoreboard.css";
-import db from '../db'
+import {getAllMatches, getMatchByNumber} from '../db'
 import Link from 'next/link'
+import {defaultMatch} from "@/app/types";
 
 const ScoreBox = ({ title, color, autoData, teleopData, teamNumbers, totalScore }) => {
   return (
     <div>
-      <nav>
-        <Link href="/">Back to Calc</Link><br />
-        <Link href="/rank">Go to Ranking</Link>
-      </nav>
     
     <div className={`score-box ${color}`}>
       
@@ -19,32 +17,83 @@ const ScoreBox = ({ title, color, autoData, teleopData, teamNumbers, totalScore 
         <div className="score-section">
           <p className="score-heading">AUTO</p>
           <div className="score-item">
-            <span>Purple Pixel:</span>
-            <span>{autoData.purplePixel}</span>
+            <span>Net Sample:</span>
+            <span>{autoData.netSample}</span>
           </div>
+
           <div className="score-item">
-            <span>Yellow Pixel:</span>
-            <span>{autoData.yellowPixel}</span>
+            <span>Low Sample:</span>
+            <span>{autoData.lowSample}</span>
           </div>
+
           <div className="score-item">
-            <span>Backstage:</span>
-            <span>{autoData.backstage}</span>
+            <span>High Sample:</span>
+            <span>{autoData.highSample}</span>
           </div>
+
+          <div className="score-item">
+            <span>Low Chamber:</span>
+            <span>{autoData.lowChamber}</span>
+          </div>
+
+          <div className="score-item">
+            <span>High Chamber:</span>
+            <span>{autoData.highChamber}</span>
+          </div>
+
+          <div className="score-item">
+            <span>Specimen:</span>
+            <span>{autoData.specimen}</span>
+          </div>
+
+          <div className="score-item">
+            <span>Low Specimen:</span>
+            <span>{autoData.lowSpecimen}</span>
+          </div>
+
+          <div className="score-item">
+            <span>High Specimen:</span>
+            <span>{autoData.highSpecimen}</span>
+          </div>
+
         </div>
 
         <div className="score-section">
           <p className="score-heading">TELEOP</p>
           <div className="score-item">
-            <span>Purple Pixel:</span>
-            <span>{teleopData.purplePixel}</span>
+            <span>Net Sample:</span>
+            <span>{teleopData.netSample}</span>
           </div>
+
           <div className="score-item">
-            <span>Yellow Pixel:</span>
-            <span>{teleopData.yellowPixel}</span>
+            <span>Low Sample:</span>
+            <span>{teleopData.lowSample}</span>
           </div>
+
           <div className="score-item">
-            <span>Backstage:</span>
-            <span>{teleopData.backstage}</span>
+            <span>High Sample:</span>
+            <span>{teleopData.highSample}</span>
+          </div>
+
+          <div className="score-item">
+            <span>Low Chamber:</span>
+            <span>{teleopData.lowChamber}</span>
+          </div>
+
+          <div className="score-item">
+            <span>High Chamber:</span>
+            <span>{teleopData.highChamber}</span>
+          </div>
+
+
+          <div className="score-item">
+            <span>Low Specimen:</span>
+            <span>{teleopData.lowSpecimen}</span>
+          </div>
+
+          <div className="score-item">
+            <span>High Specimen:</span>
+            <span>{teleopData.highSpecimen}</span>
           </div>
         </div>
       </div>
@@ -57,25 +106,90 @@ const ScoreBox = ({ title, color, autoData, teleopData, teamNumbers, totalScore 
 };
 
 export default function Scoreboard() {
+  const [matches, setMatches] = useState([]);
+  const [currentMatch, setCurrentMatch] = useState(defaultMatch);
+
+  useEffect(() => {
+    const timerID =setInterval(() => {
+  getAllMatches().then((matches) => {setMatches(matches);})
+      setCurrentMatch(matches[(currentMatch.id)-1] ? matches[(currentMatch.id)-1] : defaultMatch )
+    }, 500);
+    return () => clearInterval(timerID);
+  })
+
+  function setCurrentMatchSelector(event: React.ChangeEvent<HTMLSelectElement>) {
+    const value = event.target.value as number;
+    setCurrentMatch(matches[value-1])
+    }
   return (
     <div className="scoreboard-container">
-      <h1 className="scoreboard-title">Marietta-Wheeler League Meet #2 - Match 9</h1>
+      <nav>
+        <Link href="/">Back to Calc</Link><br />
+        <Link href="/rank">Go to Ranking</Link>
+      </nav>
+      <select defaultValue={0} onChange={setCurrentMatchSelector}>
+        <option value={0} disabled> Default </option>
+        <option value={1}> Match 1 </option>
+        <option value={2}> Match 2 </option>
+        <option value={3}> Match 3 </option>
+      </select>
+      <h1 className="scoreboard-title">CircuitRunners Robotics Offseason Event -- Match { currentMatch.id | 0 }</h1>
       <div className="scoreboard-grid">
         <ScoreBox
           title="Blue"
           color="blue"
-          autoData={{ purplePixel: 1, yellowPixel: 0, backstage: 0 }}
-          teleopData={{ purplePixel: 2, yellowPixel: 2, backstage: 0 }}
-          teamNumbers={["13245", "26481"]}
-          totalScore={18}
+          autoData={
+            {
+              netSample: currentMatch.blue.score.netSampleScored,
+              lowSample: currentMatch.blue.score.lowSampleScored,
+              highSample: currentMatch.blue.score.highSampleScored,
+              lowChamber: currentMatch.blue.score.lowChamber,
+              highChamber: currentMatch.blue.score.highChamber,
+              specimen: currentMatch.blue.score.specimenScored,
+              lowSpecimen: currentMatch.blue.score.lowSpecimenScored,
+              highSpecimen: currentMatch.blue.score.highSpecimenScored,
+
+            }
+          }
+          teleopData={{
+            netSample: currentMatch.blue.score.teleNetSampleScored,
+            lowSample: currentMatch.blue.score.teleLowSampleScored,
+            highSample: currentMatch.blue.score.teleHighSampleScored,
+            lowChamber: currentMatch.blue.score.teleLowChamber,
+            highChamber: currentMatch.blue.score.teleHighChamber,
+            lowSpecimen: currentMatch.blue.score.lowTeleSpecimenScored,
+            highSpecimen: currentMatch.blue.score.highTeleSpecimenScored,
+          }}
+          teamNumbers={currentMatch.blue.teams || []}
+          totalScore={currentMatch.blue.score.totalScore}
         />
         <ScoreBox
-          title="Red"
-          color="red"
-          autoData={{ purplePixel: 0, yellowPixel: 0, backstage: 0 }}
-          teleopData={{ purplePixel: 6, yellowPixel: 1, backstage: 0 }}
-          teamNumbers={["9785", "26537"]}
-          totalScore={23}
+            title="Red"
+            color="red"
+            autoData={
+              {
+                netSample: currentMatch.red.score.netSampleScored,
+                lowSample: currentMatch.red.score.lowSampleScored,
+                highSample: currentMatch.red.score.highSampleScored,
+                lowChamber: currentMatch.red.score.lowChamber,
+                highChamber: currentMatch.red.score.highChamber,
+                specimen: currentMatch.red.score.specimenScored,
+                lowSpecimen: currentMatch.red.score.lowSpecimenScored,
+                highSpecimen: currentMatch.red.score.highSpecimenScored,
+
+              }
+            }
+            teleopData={{
+              netSample: currentMatch.red.score.teleNetSampleScored,
+              lowSample: currentMatch.red.score.teleLowSampleScored,
+              highSample: currentMatch.red.score.teleHighSampleScored,
+              lowChamber: currentMatch.red.score.teleLowChamber,
+              highChamber: currentMatch.red.score.teleHighChamber,
+              lowSpecimen: currentMatch.red.score.lowTeleSpecimenScored,
+              highSpecimen: currentMatch.red.score.highTeleSpecimenScored,
+            }}
+            teamNumbers={currentMatch.red.teams || []}
+            totalScore={currentMatch.red.score.totalScore}
         />
       </div>
       <p className="score-time">Time: 0:00</p>
