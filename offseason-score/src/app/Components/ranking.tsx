@@ -49,13 +49,13 @@ function Ranking() {
 
   const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
   function loadData() {
-      let allTeams =[];
+      let allTeams: ((prevState: { name: string; score: number; id: number; wins: number; losses: number; }[]) => { name: string; score: number; id: number; wins: number; losses: number; }[]) | { name: any; score: any; id: any; wins: any; losses: any; }[] =[];
       getTeams().then(
         (ret_teams) => {
-            ret_teams.map((ret_team) => {
+            ret_teams!.map((ret_team) => {
                 allTeams.push({name: ret_team.name, score: ret_team.score, id: ret_team.id, wins: ret_team.wins, losses: ret_team.losses});
             })
-          ret_teams.forEach((ret_team) => {
+          ret_teams!.forEach((ret_team) => {
               if (ret_team.name === "1002") {
                   setW1002(ret_team.wins);
                   setL1002(ret_team.losses);

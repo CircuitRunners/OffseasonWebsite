@@ -27,7 +27,7 @@ export const defaultMatch: Match = {
     id: 0,
     number: 0,
     blue: {
-        teamNumbers: ['0', '0'],
+        teams: ['0', '0'],
         score: {
             netSampleScored: 0,
             lowSampleScored: 0,
@@ -53,7 +53,7 @@ export const defaultMatch: Match = {
         }
     },
     red: {
-        teamNumbers: ['0', '0'],
+        teams: ['0', '0'],
         score: {
             netSampleScored: 0,
             lowSampleScored: 0,
@@ -84,11 +84,11 @@ export type Match = {
     id: number
     number: number;
     blue: {
-        teamNumbers: string[];
+        teams: string[];
         score: MatchScore
     };
     red: {
-        teamNumbers: string[];
+        teams: string[];
         score: MatchScore
     };
 }

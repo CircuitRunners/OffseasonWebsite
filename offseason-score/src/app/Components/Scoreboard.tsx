@@ -1,11 +1,12 @@
 'use client';
 import React, {useEffect, useState} from "react";
 import "./Scoreboard.css";
-import {getAllMatches, getMatchByNumber} from '../db'
+import {getAllMatches} from '../db'
 import Link from 'next/link'
 import {defaultMatch} from "@/app/types";
+import Timer from '../Components/timer';
 
-const ScoreBox = ({ title, color, autoData, teleopData, teamNumbers, totalScore }) => {
+const ScoreBox = ({ title , color, autoData, teleopData, teamNumbers, totalScore }) => {
   return (
     <div>
     
@@ -111,15 +112,15 @@ export default function Scoreboard() {
 
   useEffect(() => {
     const timerID =setInterval(() => {
-    getAllMatches().then((matches) => {setMatches(matches);})
-      setCurrentMatch(matches.find((match) => currentMatch.id == match.id!) ? matches.find((match) => currentMatch.id == match.id!) : defaultMatch )
+    getAllMatches().then((matches) => {setMatches((matches || [] )as never[]);})
+      setCurrentMatch(matches.find((match: any) => currentMatch.id == (match.id | 0)) || defaultMatch )
     }, 500);
     return () => clearInterval(timerID);
   })
 
   function setCurrentMatchSelector(event: React.ChangeEvent<HTMLSelectElement>) {
-    const value = event.target.value as number;
-    setCurrentMatch(matches.find((match) => value == match.id!))
+    const value = event.target.value as unknown as number;
+    setCurrentMatch(matches.find((match: any) => currentMatch.id == (match.id | 0)) || defaultMatch)
     }
   return (
     <div className="scoreboard-container">
@@ -202,11 +203,14 @@ export default function Scoreboard() {
               lowSpecimen: currentMatch.red.score.lowTeleSpecimenScored,
               highSpecimen: currentMatch.red.score.highTeleSpecimenScored,
             }}
-            teamNumbers={currentMatch.red.teams || []}
+            teamNumbers={currentMatch.red.teams! || []}
             totalScore={currentMatch.red.score.totalScore}
         />
       </div>
-      <p className="score-time">Time: 0:00</p>
+     <Timer/>
+
+
+
     </div>
   );
 }

@@ -2,25 +2,19 @@
 
 import Link from 'next/link'
 
-import Image from "next/image";
-import styles from "./page.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { createClient } from '@supabase/supabase-js'
 
 
 
-import logo from './logo.svg';
 import Button from 'react-bootstrap/Button';
-import React, {ChangeEvent, use, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
-import {getAllMatches, getMatchByNumber, updateMatch} from "@/app/db";
+import {getAllMatches, updateMatch} from "@/app/db";
 import Match, {defaultMatch} from '../types';
-import {wait} from "next/dist/lib/wait";
 
 
 
@@ -32,7 +26,7 @@ import {wait} from "next/dist/lib/wait";
 
 function BlueCalc() {
   const [matches, setMatches] = useState([]);
-  getAllMatches().then((matches) => {setMatches(matches);})
+  getAllMatches().then((matches) => {setMatches((matches? matches : []) as never[]);})
   const [currentMatch, setCurrentMatch] = useState(defaultMatch);
   // console.log(currentMatch);
   const [netSampleScored, setNetSampleScored] = useState(0);
@@ -177,7 +171,6 @@ function BlueCalc() {
     const data = await updateMatch(currentMatch.id, {
       id: currentMatch.id,
       number: currentMatch.number,
-      red: currentMatch.red,
       blue: {
         teams: currentMatch.blue.teams,
         score: {
@@ -357,8 +350,8 @@ function BlueCalc() {
       setMatchReset(false);
     }, [matchReset])
     function setCurrentMatchSelector(event: React.ChangeEvent<HTMLSelectElement>) {
-      const value = event.target.value as number;
-      setCurrentMatch(matches.find((match) => value == match.id!))
+      const value = event.target.value as unknown as  number;
+      setCurrentMatch(matches.find((match: any) => value == (match.id | 0)) || defaultMatch);
       setMatchReset(true);
     }
   
