@@ -39,6 +39,7 @@ function RedCalc() {
     const [highChamber, setHighChamber] = useState(0);
 
     const [totalScore, setTotalScore] = useState(0);
+    const [pens, setPens] = useState(0);
 
 
 
@@ -148,6 +149,7 @@ function RedCalc() {
         score += (lowSampleScored + teleLowSampleScored)*4
         score += (highSampleScored + teleHighSampleScored)*8
         score += (teleLowChamber+lowChamber)*6
+        score -= pens*5
         score += (highSpecimenScored + highTeleSpecimenScored)*12
         score += (lowSpecimenScored + lowTeleSpecimenScored)*8
         score += (highChamber+ teleHighChamber)*10
@@ -500,6 +502,23 @@ function RedCalc() {
                         </h1>
                     </Col>
                 </Row>
+
+                <Row>
+                    <Col>
+                        <Button variant="outline-danger" onClick={() => setPens(pens + 1)}>
+                            Penalty
+                        </Button>
+                    </Col>
+                    <h1>
+                        Penalties: {pens}
+                    </h1>
+                    <Col>
+                        <Button variant="outline-success" onClick={() => setPens(pens - 1)}>
+                            Remove Penalty
+                        </Button>
+                    </Col>
+                </Row>
+
                 <Row>
 
                     <Col>

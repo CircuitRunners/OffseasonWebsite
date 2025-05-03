@@ -19,6 +19,7 @@ import Match, {defaultMatch} from '../types';
 
 
 
+
  
 
 
@@ -31,6 +32,7 @@ function BlueCalc() {
   // console.log(currentMatch);
   const [netSampleScored, setNetSampleScored] = useState(0);
   const [specimenScored, setSpecimenScored] = useState(0);
+  const [pens, setPens] = useState(0);
 
   const [lowSampleScored, setLowSampleScored] = useState(0);
   const [highSampleScored, setHighSampleScored] = useState(0);
@@ -152,6 +154,7 @@ function BlueCalc() {
     score += (highSpecimenScored + highTeleSpecimenScored)*12
     score += (lowSpecimenScored + lowTeleSpecimenScored)*8
     score += (highChamber+ teleHighChamber)*10
+    score -= pens*5
     if(r1loc === "Observation Zone" || r1loc === "Ascent"){
       score += 3;
     }
@@ -501,7 +504,26 @@ function BlueCalc() {
             </h1>
           </Col>
         </Row>
+
         <Row>
+                    <Col>
+                        <Button variant="outline-danger" onClick={() => setPens(pens + 1)}>
+                            Penalty
+                        </Button>
+                    </Col>
+                    <h1>
+                        Penalties: {pens}
+                    </h1>
+                    <Col>
+                        <Button variant="outline-success" onClick={() => setPens(pens - 1)}>
+                            Remove Penalty
+                        </Button>
+                    </Col>
+                </Row>
+    
+        <Row>
+
+
           
           <Col>
             Samples in NET
