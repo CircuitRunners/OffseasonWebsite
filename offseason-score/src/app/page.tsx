@@ -1,10 +1,9 @@
 import React from 'react'
-import Calc from './Components/calc'
+import BlueCalc from './Components/bluecalc'
 import Ranking from './Components/ranking'
 import Scoreboard from './Components/Scoreboard'
-import {getMatchByNumber, getAllMatches} from './db'
 function Page() {
-  return <Calc />
+  return <BlueCalc />
   
 }
 export default Page

@@ -21,3 +21,47 @@ export async function getAllMatches() {
 export async function getMatchByNumber(number: number) {
     return (await getAllMatches()).filter((match: number) => match.number == number)[0];
 }
+
+export async function updateMatch(id: number, match: Match) {
+    const { data, error } = await supabase
+        .from('matches')
+        .update(match)
+        .eq('id', id)
+        .select()
+
+    return data[0];
+}
+
+export async function getTeams() {
+
+    const { data: teams, error } = await supabase
+        .from('teams')
+        .select('*')
+
+    return teams;
+}
+
+export async function updateTeams(teams: { name: string, score: number, id: number, wins: number, losses: number }[]) {
+    console.log(teams);
+    let new_teams: {id: number; name: string; score: number, wins: number, losses: number}[] = [];
+    teams.map((team) => {
+        console.log(team);
+        if (team.score && team.wins != 0 && team.losses !=0) {
+            new_teams.push(team)
+        } else {
+
+        }
+    })
+    console.log(new_teams);
+    const datas = [];
+    for (let i = new_teams.length - 1; i >= 0; i--) {
+        const { data, error } = await supabase
+            .from('teams')
+            .update(new_teams[i])
+            .eq('name', new_teams[i].name)
+            .select()
+        datas.push(data[0] || {});
+    }
+
+    return datas;
+}

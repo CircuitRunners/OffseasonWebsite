@@ -11,7 +11,6 @@ import { createClient } from '@supabase/supabase-js'
 
 
 import logo from './logo.svg';
-// import './Calc.css';
 import Button from 'react-bootstrap/Button';
 import React, {ChangeEvent, use, useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
@@ -19,8 +18,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
-import {getAllMatches, getMatchByNumber} from "@/app/db";
-import Match from '../types';
+import {getAllMatches, getMatchByNumber, updateMatch} from "@/app/db";
+import Match, {defaultMatch} from '../types';
 import {wait} from "next/dist/lib/wait";
 
 
@@ -31,13 +30,12 @@ import {wait} from "next/dist/lib/wait";
 
 
 
-function Calc() {
+function BlueCalc() {
   const [matches, setMatches] = useState([]);
-  getAllMatches().then((matches) => {setMatches(matches)})
-
-  const [currentMatch, setCurrentMatch] = useState(matches[0]);
-
-  const [netsampleScored, setNetSampleScored] = useState(0);
+  getAllMatches().then((matches) => {setMatches(matches);})
+  const [currentMatch, setCurrentMatch] = useState(defaultMatch);
+  // console.log(currentMatch);
+  const [netSampleScored, setNetSampleScored] = useState(0);
   const [specimenScored, setSpecimenScored] = useState(0);
 
   const [lowSampleScored, setLowSampleScored] = useState(0);
@@ -61,12 +59,12 @@ function Calc() {
   const [ascent2, setAscent2] = useState("Ascent");
 
 
-  const [telenetsampleScored, setTeleNetSampleScored] = useState(0);
-  const [telespecimenScored, setTeleSpecimenScored] = useState(0);
-  const [telelowSampleScored, setTeleLowSampleScored] = useState(0);
-  const [telehighSampleScored, setTeleHighSampleScored] = useState(0);
-  const [telelowChamber, setTeleLowChamber] = useState(0);
-  const [telehighChamber, setTeleHighChamber] = useState(0);
+  const [teleNetSampleScored, setTeleNetSampleScored] = useState(0);
+  const [teleSpecimenScored, setTeleSpecimenScored] = useState(0);
+  const [teleLowSampleScored, setTeleLowSampleScored] = useState(0);
+  const [teleHighSampleScored, setTeleHighSampleScored] = useState(0);
+  const [teleLowChamber, setTeleLowChamber] = useState(0);
+  const [teleHighChamber, setTeleHighChamber] = useState(0);
     const [lowTeleSpecimenScored, setLowTeleSpecimenScored] = useState(0);
     const [highTeleSpecimenScored, setHighTeleSpecimenScored] = useState(0);
 
@@ -87,27 +85,24 @@ function Calc() {
     const [teleascent3, setTeleAscent3] = useState("Opponents Basket");
 
 
-
-
   function ResetAll(){
-    setNetSampleScored(0);
-    setLowSampleScored(0);
-    setHighSampleScored(0);
-    setLowChamber(0);
-    setHighChamber(0);
-    setSpecimenScored(0);
-    setLowSpecimenScored(0);
-    setHighSpecimenScored(0);
-    setTotalScore(0);
+    setNetSampleScored(currentMatch.blue.score.netSampleScored);
+    setLowSampleScored(currentMatch.blue.score.lowSampleScored);
+    setHighSampleScored(currentMatch.blue.score.highSampleScored);
+    setLowChamber(currentMatch.blue.score.lowChamber);
+    setHighChamber(currentMatch.blue.score.highChamber);
+    setSpecimenScored(currentMatch.blue.score.specimenScored);
+    setLowSpecimenScored(currentMatch.blue.score.lowSpecimenScored);
+    setHighSpecimenScored(currentMatch.blue.score.highSpecimenScored);
+    setTotalScore(currentMatch.blue.score.totalScore);
 
-    setTeleNetSampleScored(0);
-
-    setTeleLowSampleScored(0);
-    setTeleHighSampleScored(0);
-    setLowTeleSpecimenScored(0);
-    setHighTeleSpecimenScored(0);
-    setTeleLowChamber(0);
-    setTeleHighChamber(0);
+    setTeleNetSampleScored(currentMatch.blue.score.teleNetSampleScored);
+    setTeleLowSampleScored(currentMatch.blue.score.teleLowSampleScored);
+    setTeleHighSampleScored(currentMatch.blue.score.teleHighSampleScored);
+    setLowTeleSpecimenScored(currentMatch.blue.score.lowTeleSpecimenScored);
+    setHighTeleSpecimenScored(currentMatch.blue.score.highTeleSpecimenScored);
+    setTeleLowChamber(currentMatch.blue.score.teleLowChamber);
+    setTeleHighChamber(currentMatch.blue.score.teleHighChamber);
     setNo1("No");
     setNo2("No");
     setObsz1("Observation Zone");
@@ -153,17 +148,16 @@ function Calc() {
     }
   }
 
-  function CalculateScore(){
-    console.log(netsampleScored);
-    console.log(r1loc);
+  async function CalculateScore(){
+    // console.log(r1loc);
     let score = 0;
-    score += (telenetsampleScored+netsampleScored)*2
-    score += (lowSampleScored + telelowSampleScored)*4
-    score += (highSampleScored + telehighSampleScored)*8
-    score += (telelowChamber+lowChamber)*6
+    score += (teleNetSampleScored+netSampleScored)*2
+    score += (lowSampleScored + teleLowSampleScored)*4
+    score += (highSampleScored + teleHighSampleScored)*8
+    score += (teleLowChamber+lowChamber)*6
     score += (highSpecimenScored + highTeleSpecimenScored)*12
     score += (lowSpecimenScored + lowTeleSpecimenScored)*8
-    score += (highChamber+ telehighChamber)*10
+    score += (highChamber+ teleHighChamber)*10
     if(r1loc === "Observation Zone" || r1loc === "Ascent"){
       score += 3;
     }
@@ -173,65 +167,96 @@ function Calc() {
     if(r3loc === "Observation Zone" || r3loc === "Ascent"){
         score += 3;
         }
-    
-    
-    
 
+    // console.log(score);
+
+
+    if (score != totalScore) {
     setTotalScore(score);
+    console.log("updateScore");
+    const data = await updateMatch(currentMatch.id, {
+      id: currentMatch.id,
+      number: currentMatch.number,
+      red: currentMatch.red,
+      blue: {
+        teams: currentMatch.blue.teams,
+        score: {
+          lowSampleScored,
+          netSampleScored,
+          highSampleScored,
+          lowChamber,
+          highChamber,
+          specimenScored,
+          lowSpecimenScored,
+          highSpecimenScored,
+          totalScore: score,
+          teleNetSampleScored,
+          teleLowSampleScored,
+          teleHighSampleScored,
+          lowTeleSpecimenScored,
+          highTeleSpecimenScored,
+          teleLowChamber,
+          teleHighChamber
+        }
+      }
+    } as Match);
+    console.log('updated match score');
+
+    setCurrentMatch(data)
+
+    }
   }
 
   useEffect(() => {
-    let timerID = setInterval( () => CalculateScore(), 1000);
+    const timerID = setInterval(CalculateScore, 10);
     return () => clearInterval(timerID);
 })
-  function AddNetSample(){
-    setNetSampleScored(netsampleScored + 1);
-    
- 
+  async function AddNetSample(){
+    setNetSampleScored(netSampleScored + 1);
     }
-  function RemoveNetSample(){
-    if(netsampleScored > 0){
-      setNetSampleScored(netsampleScored - 1);
+  async function RemoveNetSample(){
+    if(netSampleScored > 0){
+      setNetSampleScored(netSampleScored - 1);
     }
-   
+
     }
-  function AddLowSample(){
+  async function AddLowSample(){
     setLowSampleScored(lowSampleScored + 1);
-  
+
     }
-  function RemoveLowSample(){
+  async function RemoveLowSample(){
     if(lowSampleScored > 0){
       setLowSampleScored(lowSampleScored - 1);
     }
-    
+
     }
-  function AddHighSample(){
+  async function AddHighSample(){
     setHighSampleScored(highSampleScored + 1);
 
     }
-    function RemoveLowSpecimen(){
+    async function RemoveLowSpecimen(){
     if(lowSpecimenScored > 0){
         setLowSpecimenScored(lowSpecimenScored - 1);
     }
     
     }
-    function AddHighSpecimen(){
+    async function AddHighSpecimen(){
     setHighSpecimenScored(highSpecimenScored + 1);
 
     }
-    function AddLowSpecimen(){
+    async function AddLowSpecimen(){
         if(lowSpecimenScored > -1){
             setLowSpecimenScored(lowSpecimenScored + 1);
         }
         
         }
-        function RemoveHighSpecimen(){
+        async function RemoveHighSpecimen(){
         if(highSpecimenScored > 0){
             setHighSpecimenScored(highSpecimenScored -1);
         }
     
         }
-  function RemoveHighSample(){
+  async function RemoveHighSample(){
     if(highSampleScored > 0){
       setHighSampleScored(highSampleScored - 1);
     }
@@ -239,31 +264,31 @@ function Calc() {
     }
     
 
-  function RemoveLowChamber(){
+  async function RemoveLowChamber(){
     if(lowChamber > 0){
       setLowChamber(lowChamber - 1);
     }
     
     }
-  function AddLowChamber(){
+  async function AddLowChamber(){
     setLowChamber(lowChamber + 1);
 
     }
   
     
     
-  function AddHighChamber(){
+  async function AddHighChamber(){
     setHighChamber(highChamber + 1);
 
     }
-  function RemoveHighChamber(){
+  async function RemoveHighChamber(){
     if(highChamber > 0){
       setHighChamber(highChamber - 1);
     }
   
     }
 
-    function PositionTeleChange1(){
+    async function PositionTeleChange1(){
       if(teler1loc === "No"){
         setTeleNo1("No - Clicked");
         setTeleObsz1("Observation Zone");
@@ -280,7 +305,7 @@ function Calc() {
         setTeleObsz1("Observation Zone");
       }
     }
-    function PositionTeleChange2(){
+    async function PositionTeleChange2(){
       if(teler2loc === "No"){
         setTeleObsz2("Observation Zone");
         setTeleNo2("No - Checked");
@@ -299,33 +324,42 @@ function Calc() {
     }
 
 
-    function RemoveTeleLowSpecimen(){
+    async function RemoveTeleLowSpecimen(){
         if(lowTeleSpecimenScored > 0){
             setLowTeleSpecimenScored(lowTeleSpecimenScored - 1);
         }
         
         }
-    function AddTeleHighSpecimen(){
+    async function AddTeleHighSpecimen(){
     setHighTeleSpecimenScored(highTeleSpecimenScored + 1);
 
     }
-    function AddTeleLowSpecimen(){
+    async function AddTeleLowSpecimen(){
         if(lowTeleSpecimenScored > -1){
             setLowTeleSpecimenScored(lowTeleSpecimenScored + 1);
         }
 
         }
-    function RemoveTeleHighSpecimen() {
+    async function RemoveTeleHighSpecimen() {
       if (highTeleSpecimenScored > 0) {
         setHighTeleSpecimenScored(highTeleSpecimenScored - 1);
       }
 
     }
+
+    const [matchReset, setMatchReset] = useState(false);
   
+    useEffect(() => {
+      if (matchReset) {
+      ResetAll();
+      console.log(currentMatch);
+      }
+      setMatchReset(false);
+    }, [matchReset])
     function setCurrentMatchSelector(event: React.ChangeEvent<HTMLSelectElement>) {
       const value = event.target.value as number;
-      console.log(value)
       setCurrentMatch(matches[value-1])
+      setMatchReset(true);
     }
   
     const [r1loc, setr1loc] = useState(null);
@@ -358,61 +392,61 @@ function Calc() {
 
   //Teleop
 
-  function AddTeleNetSample(){
-    setTeleNetSampleScored(telenetsampleScored + 1);
+  async function AddTeleNetSample(){
+    setTeleNetSampleScored(teleNetSampleScored + 1);
     
  
     }
-  function RemoveTeleNetSample(){
-    if(telenetsampleScored > 0){
-      setTeleNetSampleScored(telenetsampleScored - 1);
+  async function RemoveTeleNetSample(){
+    if(teleNetSampleScored > 0){
+      setTeleNetSampleScored(teleNetSampleScored - 1);
     }
    
     }
-  function AddTeleLowSample(){
-    setTeleLowSampleScored(telelowSampleScored + 1);
+  async function AddTeleLowSample(){
+    setTeleLowSampleScored(teleLowSampleScored + 1);
   
     }
-  function RemoveTeleLowSample(){
-    if(telelowSampleScored > 0){
-      setTeleLowSampleScored(telelowSampleScored - 1);
+  async function RemoveTeleLowSample(){
+    if(teleLowSampleScored > 0){
+      setTeleLowSampleScored(teleLowSampleScored - 1);
     }
     
     }
-  function AddTeleHighSample(){
-    setTeleHighSampleScored(telehighSampleScored + 1);
+  async function AddTeleHighSample(){
+    setTeleHighSampleScored(teleHighSampleScored + 1);
 
     }
-  function RemoveTeleHighSample(){
-    if(telehighSampleScored > 0){
-      setTeleHighSampleScored(telehighSampleScored - 1);
+  async function RemoveTeleHighSample(){
+    if(teleHighSampleScored > 0){
+      setTeleHighSampleScored(teleHighSampleScored - 1);
     }
   
     }
     
 
-  function RemoveTeleLowChamber(){
-    if(telelowChamber > 0){
-      setTeleLowChamber(telelowChamber - 1);
+  async function RemoveTeleLowChamber(){
+    if(teleLowChamber > 0){
+      setTeleLowChamber(teleLowChamber - 1);
     }
     
     }
-  function AddTeleLowChamber(){
-    setTeleLowChamber(telelowChamber + 1);
+  async function AddTeleLowChamber(){
+    setTeleLowChamber(teleLowChamber + 1);
 
     }
   
     
     
-  function AddTeleHighChamber(){
-    setTeleHighChamber(telehighChamber + 1);
+  async function AddTeleHighChamber(){
+    setTeleHighChamber(teleHighChamber + 1);
 
     }
-  function RemoveTeleHighChamber(){
-    if(telehighChamber > 0){
-      setTeleHighChamber(telehighChamber - 1);
+  async function RemoveTeleHighChamber(){
+    if(teleHighChamber > 0){
+      setTeleHighChamber(teleHighChamber - 1);
     }
-  
+
     }
 
 
@@ -437,8 +471,9 @@ function Calc() {
 
   return (
     <div>
-
+      <h1>Blue Calc</h1>
       <nav>
+        <Link href="/red-calc">Go to Red Calc</Link><br />
         <Link href="/rank">Go to Ranking</Link><br />
         <Link href="/score">Go to Scoreboard</Link>
       </nav>
@@ -473,7 +508,7 @@ function Calc() {
             </Col>
             <Col>
             <h1>
-             {netsampleScored}
+             {netSampleScored}
             </h1>
           </Col>
           <Col>
@@ -660,7 +695,7 @@ function Calc() {
             </Col>
             <Col>
             <h1>
-             {telenetsampleScored}
+             {teleNetSampleScored}
             </h1>
           </Col>
           <Col>
@@ -679,7 +714,7 @@ function Calc() {
             </Col>
             <Col>
             <h1>
-              {telelowSampleScored}
+              {teleLowSampleScored}
               </h1> 
           </Col>
           <Col onClick={AddTeleLowSample}>
@@ -703,7 +738,7 @@ function Calc() {
             </Col>
             <Col>
             <h1>
-            {telehighSampleScored}
+            {teleHighSampleScored}
             </h1>
           </Col>
           <Col>
@@ -729,7 +764,7 @@ function Calc() {
             </Col>
             <Col>
             <h1>
-              {telelowChamber}
+              {teleLowChamber}
             </h1>
           </Col>
           <Col>
@@ -748,7 +783,7 @@ function Calc() {
             </Col>
             <Col>
             <h1>
-              {telehighChamber}
+              {teleHighChamber}
             </h1>
           </Col>
           <Col onClick={AddTeleHighChamber}>
@@ -837,14 +872,27 @@ function Calc() {
        </Button>
 
 
-      
+        <Button onClick={CalculateScore}>
+          Save/Update Calculations
+       </Button>
+
       </Container>
 
-      
+      <div style={{textAlign: "center"}}>
+        Teams:
+        <br></br>
+        {(currentMatch.blue.teams || []).map((team: string, index: number) => {
+          return (
+              <div key={index}>
+                {team}
+              </div>
+          )
+        })}
+      </div>
       
     </div>
   );
 }
 
-export default Calc;
+export default BlueCalc;
 
