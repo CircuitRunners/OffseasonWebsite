@@ -46,7 +46,7 @@ export async function updateTeams(teams: { name: string, score: number, id: numb
     let new_teams: {id: number; name: string; score: number, wins: number, losses: number}[] = [];
     teams.map((team) => {
         console.log(team);
-        if (team.score && team.wins != 0 && team.losses !=0) {
+        if (team.wins != 0 || team.losses !=0) {
             new_teams.push(team)
         } else {
 
